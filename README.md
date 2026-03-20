@@ -8,7 +8,7 @@ A lightweight Unix-based system and network monitoring tool built in Python.
 - [x] Disk monitoring
 - [x] Network connections monitoring
 - [x] Alerting system
-- [ ] Logging
+- [x] Logging
 
 ## Requirements
 - Python 3.8+
@@ -24,3 +24,5 @@ python main.py
 ## Usage
 
 Run `main.py` and SysWatcher will continuously display system stats. Press `Ctrl+C` to stop.
+
+Logs are written to `syswatcher.log` in the project root. Each run appends to the file — snapshots at DEBUG level, alerts at WARNING level.
