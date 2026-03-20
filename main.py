@@ -6,6 +6,7 @@ from syswatcher.network import get_network_connections, get_network_io
 from syswatcher.alerts import check_alerts
 from syswatcher.logger import setup_logger, log_alerts, log_snapshot
 from syswatcher.dashboard import render_dashboard
+from syswatcher.anomaly import AnomalyDetector
 
 REFRESH_INTERVAL = 2  # seconds between each update
 
@@ -13,6 +14,7 @@ REFRESH_INTERVAL = 2  # seconds between each update
 def run():
     logger = setup_logger()
     logger.info("SysWatcher started")
+    detector = AnomalyDetector()
 
     try:
         while True:
@@ -23,7 +25,10 @@ def run():
             io = get_network_io()
             alerts = check_alerts(cpu, memory, disk)
 
-            render_dashboard(cpu, memory, disk, connections, io, alerts)
+            detector.add_sample(cpu["percent"], memory["ram"]["percent"])
+            anomalies = detector.check(cpu["percent"], memory["ram"]["percent"])
+
+            render_dashboard(cpu, memory, disk, connections, io, alerts, anomalies)
             log_alerts(logger, alerts)
             log_snapshot(logger, cpu, memory)
 

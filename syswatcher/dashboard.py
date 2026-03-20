@@ -94,8 +94,22 @@ def build_alerts_panel(alerts: list) -> Panel:
     return Panel(content, title="[bold]Alerts[/bold]", border_style="red" if alerts else "green")
 
 
+def build_anomaly_panel(anomalies: list) -> Panel:
+    if not anomalies:
+        content = Text("No anomalies detected", style="green")
+        border = "green"
+    elif anomalies[0].startswith("Baseline"):
+        content = Text(anomalies[0], style="dim yellow")
+        border = "yellow"
+    else:
+        content = Text("\n".join(anomalies), style="bold orange3")
+        border = "orange3"
+    return Panel(content, title="[bold]Anomaly Detection[/bold]", border_style=border)
+
+
 def render_dashboard(cpu: dict, memory: dict, disk: list,
-                     connections: list, io: dict, alerts: list) -> None:
+                     connections: list, io: dict, alerts: list,
+                     anomalies: list = None) -> None:
     """Clears the terminal and renders the full dashboard."""
     console.clear()
     console.print(Panel("[bold white]SysWatcher[/bold white]",
@@ -105,3 +119,5 @@ def render_dashboard(cpu: dict, memory: dict, disk: list,
     console.print(build_disk_panel(disk))
     console.print(build_network_panel(connections, io))
     console.print(build_alerts_panel(alerts))
+    if anomalies is not None:
+        console.print(build_anomaly_panel(anomalies))
