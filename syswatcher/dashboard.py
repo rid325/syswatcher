@@ -78,9 +78,10 @@ def build_network_panel(connections: list, io: dict) -> Panel:
     else:
         table.add_row("Active", Text(str(len(connections)), style="bold"))
         for c in connections[:5]:
+            location = c.get("location", "")
             table.add_row(
                 f"  {c['process'][:10]}",
-                Text(f"{c['remote']}  [{c['status']}]", style="dim")
+                Text(f"{c['remote']}  [{c['status']}]  {location}", style="dim")
             )
 
     return Panel(table, title="[bold]Network[/bold]", border_style="blue")

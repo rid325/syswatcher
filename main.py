@@ -7,6 +7,7 @@ from syswatcher.alerts import check_alerts
 from syswatcher.logger import setup_logger, log_alerts, log_snapshot
 from syswatcher.dashboard import render_dashboard
 from syswatcher.anomaly import AnomalyDetector
+from syswatcher.geo import enrich_connections
 
 REFRESH_INTERVAL = 2  # seconds between each update
 
@@ -22,6 +23,7 @@ def run():
             memory = get_memory_usage()
             disk = get_disk_usage()
             connections = get_network_connections()
+            connections = enrich_connections(connections)
             io = get_network_io()
             alerts = check_alerts(cpu, memory, disk)
 
