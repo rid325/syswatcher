@@ -7,7 +7,7 @@ A lightweight Unix-based system and network monitoring tool built in Python.
 - [x] Memory monitoring
 - [x] Disk monitoring
 - [x] Network connections monitoring
-- [ ] Alerting system
+- [x] Alerting system
 - [ ] Logging
 
 ## Requirements
